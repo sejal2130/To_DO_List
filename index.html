@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BloomTask — Plan • Focus • Bloom</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="brand-logo">✿</div>
+
+            <div>
+                <h2>BloomTask</h2>
+                <span>Plan • Focus • Bloom</span>
+            </div>
+        </div>
+
+        <button class="new-task-btn" onclick="openNewTask()">
+            <span>＋</span>
+            New Task
+        </button>
+
+        <nav class="navigation">
+
+            <button class="nav-item active" onclick="switchView('dashboard', this)">
+                <span>⌂</span>
+                Dashboard
+            </button>
+
+            <button class="nav-item" onclick="switchView('tasks', this)">
+                <span>✓</span>
+                All Tasks
+            </button>
+
+            <button class="nav-item" onclick="switchView('today', this)">
+                <span>☀</span>
+                Today
+            </button>
+
+            <button class="nav-item" onclick="switchView('analytics', this)">
+                <span>◌</span>
+                Analytics
+            </button>
+
+        </nav>
+
+        <div class="sidebar-title">
+            CATEGORIES
+        </div>
+
+        <div class="category-menu">
+
+            <button onclick="filterCategory('Study')">
+                <span class="dot study"></span>
+                Study
+            </button>
+
+            <button onclick="filterCategory('Placement')">
+                <span class="dot placement"></span>
+                Placement
+            </button>
+
+            <button onclick="filterCategory('Personal')">
+                <span class="dot personal"></span>
+                Personal
+            </button>
+
+            <button onclick="filterCategory('Projects')">
+                <span class="dot projects"></span>
+                Projects
+            </button>
+
+        </div>
+
+        <div class="sidebar-bottom">
+
+            <button class="nav-item" onclick="switchView('settings', this)">
+                <span>⚙</span>
+                Settings
+            </button>
+
+            <div class="mini-profile">
+                <div class="avatar">S</div>
+
+                <div>
+                    <strong>Sejal</strong>
+                    <small>Productive day ✨</small>
+                </div>
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main">
+
+        <!-- TOP BAR -->
+
+        <header class="topbar">
+
+            <div>
+                <div class="mobile-brand">
+                    ✿ BloomTask
+                </div>
+            </div>
+
+            <div class="top-actions">
+
+                <button
+                    class="icon-button"
+                    id="themeBtn"
+                    onclick="toggleTheme()"
+                    title="Toggle theme">
+                    ☼
+                </button>
+
+                <div class="top-avatar">
+                    S
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- ================= DASHBOARD ================= -->
+
+        <section id="dashboardView" class="view active-view">
+
+            <div class="welcome">
+
+                <div>
+                    <p class="eyebrow" id="greeting">
+                        Good evening
+                    </p>
+
+                    <h1>
+                        Make today beautifully
+                        <span>productive.</span>
+                    </h1>
+
+                    <p id="currentDate" class="date-text"></p>
+                </div>
+
+                <button class="primary-btn" onclick="openNewTask()">
+                    + Add Task
+                </button>
+
+            </div>
+
+
+            <!-- STATS -->
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+                    <div class="stat-icon pink">✓</div>
+
+                    <div>
+                        <span>Total Tasks</span>
+                        <strong id="totalTasks">0</strong>
+                    </div>
+                </div>
+
+
+                <div class="stat-card">
+                    <div class="stat-icon peach">○</div>
+
+                    <div>
+                        <span>Pending</span>
+                        <strong id="pendingTasks">0</strong>
+                    </div>
+                </div>
+
+
+                <div class="stat-card">
+                    <div class="stat-icon green">✓</div>
+
+                    <div>
+                        <span>Completed</span>
+                        <strong id="completedTasks">0</strong>
+                    </div>
+                </div>
+
+
+                <div class="stat-card">
+                    <div class="stat-icon purple">🔥</div>
+
+                    <div>
+                        <span>Day Streak</span>
+                        <strong id="streak">0</strong>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- DASHBOARD GRID -->
+
+            <div class="dashboard-grid">
+
+
+                <!-- TODAY TASKS -->
+
+                <div class="panel large-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <h2>Today's Focus</h2>
+                            <p>Your most important tasks for today</p>
+                        </div>
+
+                        <button
+                            class="text-btn"
+                            onclick="switchView('tasks')">
+                            View all →
+                        </button>
+
+                    </div>
+
+                    <div id="todayTasks" class="task-list"></div>
+
+                </div>
+
+
+                <!-- PROGRESS -->
+
+                <div class="panel progress-panel">
+
+                    <div class="panel-header">
+                        <div>
+                            <h2>Daily Progress</h2>
+                            <p>Keep blooming 🌸</p>
+                        </div>
+                    </div>
+
+                    <div class="progress-ring" id="progressRing">
+
+                        <div>
+                            <strong id="progressPercent">
+                                0%
+                            </strong>
+
+                            <span>complete</span>
+                        </div>
+
+                    </div>
+
+                    <p id="progressMessage" class="progress-message">
+                        Start your first task.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- QUICK ACTIONS -->
+
+            <div class="panel quick-panel">
+
+                <div class="panel-header">
+
+                    <div>
+                        <h2>Quick Actions</h2>
+                        <p>Stay focused without leaving your dashboard.</p>
+                    </div>
+
+                </div>
+
+                <div class="quick-actions">
+
+                    <button onclick="openNewTask()">
+                        <span>＋</span>
+                        Add Task
+                    </button>
+
+                    <button onclick="startPomodoro()">
+                        <span>🍅</span>
+                        Focus Session
+                    </button>
+
+                    <button onclick="clearCompleted()">
+                        <span>✓</span>
+                        Clear Completed
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= TASKS ================= -->
+
+        <section id="tasksView" class="view">
+
+            <div class="page-heading">
+
+                <div>
+                    <p class="eyebrow">YOUR WORKSPACE</p>
+                    <h1>All Tasks</h1>
+                    <p>Everything you need to get done.</p>
+                </div>
+
+                <button class="primary-btn" onclick="openNewTask()">
+                    + New Task
+                </button>
+
+            </div>
+
+
+            <!-- SEARCH -->
+
+            <div class="toolbar">
+
+                <div class="search-box">
+
+                    <span>⌕</span>
+
+                    <input
+                        type="text"
+                        id="searchInput"
+                        placeholder="Search tasks, notes, tags..."
+                        oninput="render()">
+
+                </div>
+
+
+                <select id="statusFilter" onchange="render()">
+
+                    <option value="all">All Status</option>
+                    <option value="active">Active</option>
+                    <option value="completed">Completed</option>
+                    <option value="overdue">Overdue</option>
+
+                </select>
+
+
+                <select id="priorityFilter" onchange="render()">
+
+                    <option value="all">All Priorities</option>
+                    <option value="high">High</option>
+                    <option value="medium">Medium</option>
+                    <option value="low">Low</option>
+
+                </select>
+
+
+                <select id="categoryFilter" onchange="render()">
+
+                    <option value="all">All Categories</option>
+                    <option value="Study">Study</option>
+                    <option value="Placement">Placement</option>
+                    <option value="Personal">Personal</option>
+                    <option value="Projects">Projects</option>
+
+                </select>
+
+
+                <select id="sortFilter" onchange="render()">
+
+                    <option value="created">Newest</option>
+                    <option value="due">Due Date</option>
+                    <option value="priority">Priority</option>
+                    <option value="alphabetical">A-Z</option>
+
+                </select>
+
+            </div>
+
+
+            <div class="task-section">
+
+                <div class="section-heading">
+
+                    <div>
+                        <h2>Tasks</h2>
+                        <span id="taskCount">0 tasks</span>
+                    </div>
+
+                    <button class="danger-text" onclick="clearCompleted()">
+                        Clear completed
+                    </button>
+
+                </div>
+
+                <div id="allTasks" class="task-list"></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= TODAY ================= -->
+
+        <section id="todayView" class="view">
+
+            <div class="page-heading">
+
+                <div>
+                    <p class="eyebrow">FOCUS</p>
+                    <h1>Today's Tasks</h1>
+                    <p>Focus on what matters today.</p>
+                </div>
+
+                <button class="primary-btn" onclick="openNewTask()">
+                    + New Task
+                </button>
+
+            </div>
+
+            <div class="panel">
+
+                <div id="todayFullList" class="task-list"></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= ANALYTICS ================= -->
+
+        <section id="analyticsView" class="view">
+
+            <div class="page-heading">
+
+                <div>
+                    <p class="eyebrow">INSIGHTS</p>
+                    <h1>Productivity Analytics</h1>
+                    <p>Understand how you spend your focus.</p>
+                </div>
+
+            </div>
+
+
+            <div class="analytics-grid">
+
+
+                <div class="panel">
+
+                    <div class="panel-header">
+                        <div>
+                            <h2>Weekly Completion</h2>
+                            <p>Tasks completed recently</p>
+                        </div>
+                    </div>
+
+                    <div id="weeklyChart" class="bar-chart"></div>
+
+                </div>
+
+
+                <div class="panel">
+
+                    <div class="panel-header">
+                        <div>
+                            <h2>Category Breakdown</h2>
+                            <p>Where your tasks live</p>
+                        </div>
+                    </div>
+
+                    <div id="categoryChart"></div>
+
+                </div>
+
+            </div>
+
+
+            <div class="analytics-stats">
+
+                <div class="analytics-stat">
+                    <span>Completion Rate</span>
+                    <strong id="analyticsCompletion">0%</strong>
+                </div>
+
+                <div class="analytics-stat">
+                    <span>Overdue</span>
+                    <strong id="analyticsOverdue">0</strong>
+                </div>
+
+                <div class="analytics-stat">
+                    <span>Focus Sessions</span>
+                    <strong id="focusSessions">0</strong>
+                </div>
+
+                <div class="analytics-stat">
+                    <span>Top Category</span>
+                    <strong id="topCategory">—</strong>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= SETTINGS ================= -->
+
+        <section id="settingsView" class="view">
+
+            <div class="page-heading">
+
+                <div>
+                    <p class="eyebrow">CUSTOMIZE</p>
+                    <h1>Settings</h1>
+                    <p>Manage your BloomTask data.</p>
+                </div>
+
+            </div>
+
+
+            <div class="settings-grid">
+
+                <div class="panel setting-card">
+
+                    <span class="setting-icon">📤</span>
+
+                    <h2>Export Tasks</h2>
+
+                    <p>
+                        Download all your tasks as a JSON file.
+                    </p>
+
+                    <button class="secondary-btn" onclick="exportData()">
+                        Export JSON
+                    </button>
+
+                </div>
+
+
+                <div class="panel setting-card">
+
+                    <span class="setting-icon">📥</span>
+
+                    <h2>Import Tasks</h2>
+
+                    <p>
+                        Restore tasks from a previous backup.
+                    </p>
+
+                    <input
+                        type="file"
+                        id="importFile"
+                        accept=".json"
+                        hidden
+                        onchange="importData(event)">
+
+                    <button
+                        class="secondary-btn"
+                        onclick="document.getElementById('importFile').click()">
+
+                        Import JSON
+
+                    </button>
+
+                </div>
+
+
+                <div class="panel setting-card danger-card">
+
+                    <span class="setting-icon">🗑️</span>
+
+                    <h2>Delete Everything</h2>
+
+                    <p>
+                        Permanently remove all saved tasks.
+                    </p>
+
+                    <button class="danger-btn" onclick="deleteEverything()">
+                        Delete All Tasks
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= TASK MODAL ================= -->
+
+    <div class="modal-overlay" id="taskModal">
+
+        <div class="modal">
+
+            <div class="modal-header">
+
+                <div>
+                    <p class="eyebrow">TASK</p>
+                    <h2 id="modalTitle">Create a new task</h2>
+                </div>
+
+                <button class="close-btn" onclick="closeModal()">
+                    ×
+                </button>
+
+            </div>
+
+
+            <form id="taskForm">
+
+                <input type="hidden" id="editingId">
+
+
+                <label>
+                    Task title
+                    <input
+                        id="taskTitle"
+                        type="text"
+                        placeholder="e.g. Complete Java DSA practice"
+                        required>
+                </label>
+
+
+                <div class="form-row">
+
+                    <label>
+                        Priority
+
+                        <select id="taskPriority">
+
+                            <option value="high">High</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="low">Low</option>
+
+                        </select>
+
+                    </label>
+
+
+                    <label>
+                        Category
+
+                        <select id="taskCategory">
+
+                            <option value="Study">Study</option>
+                            <option value="Placement">Placement</option>
+                            <option value="Personal">Personal</option>
+                            <option value="Projects">Projects</option>
+
+                        </select>
+
+                    </label>
+
+                </div>
+
+
+                <div class="form-row">
+
+                    <label>
+                        Due date
+
+                        <input
+                            id="taskDue"
+                            type="date">
+
+                    </label>
+
+
+                    <label>
+                        Tags
+
+                        <input
+                            id="taskTags"
+                            type="text"
+                            placeholder="java, dsa, placement">
+
+                    </label>
+
+                </div>
+
+
+                <label>
+                    Notes
+
+                    <textarea
+                        id="taskNotes"
+                        rows="4"
+                        placeholder="Add useful notes..."></textarea>
+
+                </label>
+
+
+                <label>
+                    Subtasks
+
+                    <textarea
+                        id="taskSubtasks"
+                        rows="4"
+                        placeholder="One subtask per line&#10;Watch lecture&#10;Solve 5 problems&#10;Revise notes"></textarea>
+
+                </label>
+
+
+                <div class="modal-actions">
+
+                    <button
+                        type="button"
+                        class="secondary-btn"
+                        onclick="closeModal()">
+
+                        Cancel
+
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="primary-btn">
+
+                        Save Task
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= DETAIL MODAL ================= -->
+
+    <div class="modal-overlay" id="detailModal">
+
+        <div class="modal detail-modal">
+
+            <button
+                class="close-btn detail-close"
+                onclick="closeDetail()">
+
+                ×
+
+            </button>
+
+            <div id="detailContent"></div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= POMODORO ================= -->
+
+    <div class="pomodoro">
+
+        <div class="pomodoro-icon">
+            🍅
+        </div>
+
+        <div>
+
+            <small>Focus Timer</small>
+
+            <strong id="timerDisplay">
+                25:00
+            </strong>
+
+        </div>
+
+        <button onclick="togglePomodoro()" id="timerButton">
+            ▶
+        </button>
+
+        <button onclick="resetPomodoro()">
+            ↻
+        </button>
+
+    </div>
+
+
+    <!-- ================= TOAST ================= -->
+
+    <div id="toastContainer"></div>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
